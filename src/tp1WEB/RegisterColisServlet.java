@@ -34,14 +34,30 @@ public class RegisterColisServlet extends HttpServlet {
 		String price_temp = request.getParameter("price");
 		String origin = request.getParameter("origin");
 		String destination = request.getParameter("destination");
-		double weight = Double.parseDouble(weight_temp);
-		double price = Double.parseDouble(price_temp);
-		
-		Colis colis = ejb.createColis(weight, price, origin, destination);
-		
-		request.setAttribute("colis", colis);
-		
-		request.getRequestDispatcher("/AfficherColis.jsp").forward(request, response);
+
+		if ("".equals(weight_temp) || "".equals(price_temp) || "".equals(origin) || "".equals(destination))
+		{
+			request.setAttribute("error", "Un attribut n'est pas renseigné");
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+		}
+		else
+		{
+			double weight = Double.parseDouble(weight_temp);
+			double price = Double.parseDouble(price_temp);
+			
+			Colis colis = ejb.createColis(weight, price, origin, destination);
+
+			if (colis == null)
+			{
+				request.setAttribute("error", "Le colis n'a pas pu être créé");
+				request.getRequestDispatcher("/error.jsp").forward(request, response);
+			}
+			else
+			{
+				request.setAttribute("colis", colis);	
+				request.getRequestDispatcher("/AfficherColis.jsp").forward(request, response);
+			}
+		}
 	}
 
 	/**

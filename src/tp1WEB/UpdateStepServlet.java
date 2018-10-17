@@ -37,15 +37,31 @@ public class UpdateStepServlet extends HttpServlet {
 		String place = request.getParameter("place");
 		String state_temp = request.getParameter("state");
 
-		long idColis = Long.parseLong(idColis_temp);
-		double lat = Double.parseDouble(lat_temp);
-		double lon = Double.parseDouble(long_temp);
-		State state = State.valueOf(state_temp);
-		
-		Colis colis = ejb.updateProgress(idColis, state, lat, lon, place);
-		
-		request.setAttribute("colis", colis);
-		request.getRequestDispatcher("/AfficherColis.jsp").forward(request, response);
+		if ("".equals(idColis_temp) || "".equals(lat_temp) || "".equals(long_temp) || "".equals(place) || "".equals(state_temp))
+		{
+			request.setAttribute("error", "Un attribut n'est pas renseigné");
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+		}
+		else
+		{
+			long idColis = Long.parseLong(idColis_temp);
+			double lat = Double.parseDouble(lat_temp);
+			double lon = Double.parseDouble(long_temp);
+			State state = State.valueOf(state_temp);
+			
+			Colis colis = ejb.updateProgress(idColis, state, lat, lon, place);
+
+			if (colis == null)
+			{
+				request.setAttribute("error", "Le colis n'a pas pu être mis à jour");
+				request.getRequestDispatcher("/error.jsp").forward(request, response);
+			}
+			else
+			{
+				request.setAttribute("colis", colis);
+				request.getRequestDispatcher("/AfficherColis.jsp").forward(request, response);
+			}
+		}
 	}
 
 	/**

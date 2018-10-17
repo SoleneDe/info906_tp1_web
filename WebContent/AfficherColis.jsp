@@ -8,14 +8,15 @@
 <title>Info colis</title>
 </head>
 <body>
-	<p>id: ${colis.id}</p>
-	<p>weight: ${colis.weight}</p>
-	<p>price: ${colis.price}</p>
-	<p>origin: ${colis.origin}</p>
-	<p>destination: ${colis.destination}</p>
-	<p>state: ${colis.state}</p>
-	<p>position: ${colis.position.latitude} ${colis.position.longitude} ${colis.position.place}</p>
-	
+	<h1>Colis #${colis.id}</h1>
+	<ul>
+		<li>Weight: ${colis.weight}</li>
+		<li>Price: ${colis.price}</li>
+		<li>Origin: ${colis.origin}</li>
+		<li>Destination: ${colis.destination}</li>
+		<li>State: ${colis.state}</li>
+		<li>Position: ${colis.position.latitude} / ${colis.position.longitude} / ${colis.position.place}</li>
+	</ul>
 	
 	<a href="index.html">Revenir à l'accueil</a>
 </body>

@@ -39,9 +39,16 @@ public class DisplayColisServlet extends HttpServlet {
 		
 		Colis colis = ejb.getColis(id_long);
 		
-		request.setAttribute("colis", colis);
-
-		request.getRequestDispatcher("/AfficherColis.jsp").forward(request, response);	
+		if (colis == null)
+		{
+			request.setAttribute("error", "Le colis n'existe pas");
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+		}
+		else
+		{
+			request.setAttribute("colis", colis);
+			request.getRequestDispatcher("/AfficherColis.jsp").forward(request, response);
+		}
 	}
 
 	/**
